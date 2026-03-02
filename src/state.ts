@@ -16,7 +16,7 @@ export function initState() {
     const rl = createInterface({
         input: process.stdin,
         output: process.stdout,
-        prompt: "Pokedex >"
+        prompt: "Pokedex > "
     });
     return {readline: rl, commands: getCommands()};
 }
