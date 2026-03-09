@@ -5,20 +5,22 @@ export async function startREPL(state: State) {
 
     rl.prompt();
     rl.on("line", async (input) => {
-        const res = cleanInput(input)
-        if (res.length === 0) {
+        const words = cleanInput(input)
+        if (words.length === 0) {
             rl.prompt();
             return;
         }
-        const commandName = res[0]
+        const commandName = words[0]
         const cmd = commands[commandName]
+        const args = words.slice(1)
+
         if (!cmd) {
             console.log(`Unknown command: "${commandName}". Type "help" for a list of commands`);
             rl.prompt();
             return;
         }
         try{
-            await cmd.callback(state);
+            await cmd.callback(state, ...args);
         } catch (err) {
            console.log((err as Error).message);
         }
